@@ -75,6 +75,7 @@ public class BaseController {
         JSONObject param = new JSONObject();
         param.put("data",data);
         param.put("sign",sign);
+
         return new ApiResponse().addData(param);
     }
 }
