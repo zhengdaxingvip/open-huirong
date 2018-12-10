@@ -3,8 +3,6 @@ package cn.hrfax.open.config;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -36,7 +34,7 @@ public class SwaggerConfig{
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("huirong-api")
-                .apiInfo(apiInfo())
+                .apiInfo(apiInfo("外部机构对接接口"))
                 .select()
                 //为当前包路径
                 //.apis(RequestHandlerSelectors.basePackage("carloan.loan.controller")) // 这个包指的是我们在哪些类中使用swagger2来测试。
@@ -46,12 +44,12 @@ public class SwaggerConfig{
 
     }
 
-    private ApiInfo apiInfo() {
+    private ApiInfo apiInfo(String desc) {
         return new ApiInfoBuilder()
                 //页面标题
                 .title("惠瀜系统对外开放接口平台")
                 //描述
-                .description("外部机构对接接口")
+                .description(desc)
                 //创建人
                 .contact("浙江惠瀜网络科技有限公司")
                 //版本号

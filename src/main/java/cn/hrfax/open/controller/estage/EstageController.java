@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2018/12/7 11:53
  **/
 @RestController("/estage")
-@Api(tags = "e分期外部机构对接接口", description = "机构进件接口")
+@Api(tags = "e分期外部机构对接接口", description = "机构进件接口",value = "/estage")
 public class EstageController {
     private static final Logger LOGGER = LoggerFactory.getLogger(EstageController.class);
 
@@ -131,7 +131,7 @@ public class EstageController {
 
     @PostMapping("/bank/creditApply")
     @ApiOperation(value = "征信进件", notes = "征信进件接口，业务代码busiCode为1001")
-    @ApiImplicitParam(name = "jsonObject", value = creditApplyParam, required = true, paramType = "body")
+    @ApiImplicitParam(name = "jsonObject", value = creditApplyParam, required = true, paramType = "body" )
     public Object creditApply(@RequestBody JSONObject jsonObject){
         LOGGER.error("征信进件接口:{}"+jsonObject);
         String busiCode=jsonObject.getString("busiCode");
@@ -216,7 +216,7 @@ public class EstageController {
 
     @PostMapping("/bank/cardApply")
     @ApiOperation(value = "申请开卡", notes = "申请开卡接口，业务代码busiCode为1003")
-    @ApiImplicitParam(name = "jsonObject", value = cardApplyParam, required = true, paramType = "body")
+    @ApiImplicitParam(name = "jsonObject", value = cardApplyParam, required = true, paramType = "body",example = "example")
     public Object cardApply(@RequestBody JSONObject jsonObject){
         LOGGER.error("申请开卡接口:{}"+jsonObject);
         String busiCode=jsonObject.getString("busiCode");

@@ -45,7 +45,7 @@ public class BaseController {
     @PostMapping("/encryptAndSign")
     @ApiOperation(value = "数据加密及签名接口", notes = "数据加密及签名接口，业务代码busiCode为0000，" +
             "在调用其他进件接口前，请先调用该接口，将所需加密的数据进行加密，同时获取签名，" +
-            "请求时data内容直接放置请求数据体、sign直接传空字符串。" +
+            "将所需加密的data参数及busiCode参数传入即可。" +
             "结果返回后将返回的data和sign值进行替换，整理后的数据可用于调用相关进件接口")
     @ApiImplicitParam(name = "jsonObject", value = encryptAndSignParam,required = true,paramType = "body")
     public Object encryptAndSign(@RequestBody JSONObject jsonObject){
