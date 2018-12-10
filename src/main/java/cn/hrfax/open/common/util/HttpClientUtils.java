@@ -47,10 +47,10 @@ public class HttpClientUtils {
 		try (CloseableHttpClient httpclient = HttpClients.custom().build();) {
 			try (CloseableHttpResponse response = httpclient.execute(request);) {
 				int statusCode = response.getStatusLine().getStatusCode();
-				logger.info("请求【{}】返回状态吗【{}】", request.getURI(), statusCode);
+				logger.error("请求【{}】返回状态吗【{}】", request.getURI(), statusCode);
 				if (HttpStatus.SC_OK == statusCode) {
 					String result =  IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8.name());
-					logger.info("请求【{}】返回结果:{}", request.getURI(),result);
+					logger.error("请求【{}】返回结果:{}", request.getURI(),result);
 					return result;
 				}
 				throw new RuntimeException(String.format("请求【%s】返回状态吗【%s】", request.getURI(), statusCode));
@@ -98,7 +98,7 @@ public class HttpClientUtils {
 	 */
 	public static String postICBC(String url, String data) {
 		
-		logger.info("请求[{}],数据:{}",url,data);
+		logger.error("请求[{}],数据:{}",url,data);
 		
 		HttpEntity httpEntity = new StringEntity(data, ContentType.APPLICATION_JSON);
 		return doPost(url, httpEntity);

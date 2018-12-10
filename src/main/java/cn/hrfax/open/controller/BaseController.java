@@ -32,29 +32,39 @@ public class BaseController {
     @Autowired
     private EsbConfig esbConfig;
 
+    //征信进件参数
+    private final String encryptAndSignParam="{\n" +
+            "\"assurerNo\": \"商户代码\",\n" +
+            "\"data\": \"需加密data数据\",\n" +
+            "\"sign\": \"签名，调加密签名方法时可为空字符串\",\n" +
+            "\"bankType\": \"银行类型，见字典\",\n" +
+            "\"busiCode\": \"业务编码，见字典\",\n" +
+            "\"platNo\":\"平台编号\"\n" +
+            "}";
+
     @PostMapping("/encryptAndSign")
     @ApiOperation(value = "数据加密及签名接口", notes = "数据加密及签名接口，业务代码busiCode为0000，" +
             "在调用其他进件接口前，请先调用该接口，将所需加密的数据进行加密，同时获取签名，" +
-            "请求时data内容直接放置请求数据体、sign直接空字符串。" +
+            "请求时data内容直接放置请求数据体、sign直接传空字符串。" +
             "结果返回后将返回的data和sign值进行替换，整理后的数据可用于调用相关进件接口")
-    @ApiImplicitParam(name = "jsonObject", value = "{\n" +
-            "  \"assurerNo\": \"商户代码\",\n" +
-            "  \"data\": \"加密data数据\",\n" +
-            "  \"sign\": \"签名\",\n" +
-            "  \"bankType\": \"银行类型\",\n" +
-            "  \"busiCode\": \"业务编码\",\n" +
-            "  \"platNo\":\"平台编号\"\n" +
-            "}")
+    @ApiImplicitParam(name = "jsonObject", value = encryptAndSignParam,required = true,paramType = "body")
     public Object encryptAndSign(@RequestBody JSONObject jsonObject){
         LOGGER.error("数据加密及签名接口:{}"+jsonObject);
+//        String jsonString=JSONObject.toJSONString(jsonObject);
+//        JSONObject json=JSON.parseObject(jsonString);
         String busiCode=jsonObject.getString("busiCode");
         if(busiCode==null||!BankApplyBusiCode.ENCRYPT_SIGN.routeBusiCode.equals(busiCode)){
             return new ApiResponse(ResponseInfo.ILLEGAL_PARAM.code, ResponseInfo.ILLEGAL_PARAM.msg+": busiCode错误");
         }
-        return bankRoute(jsonObject);
+        return encryptSign(jsonObject);
     }
 
-    private Object bankRoute(JSONObject jsonObject){
+    /**
+     * 数据加密及签名
+     * @param jsonObject
+     * @return
+     */
+    private Object encryptSign(JSONObject jsonObject){
         String resultStr = jsonObject.toString();
         LOGGER.error("/encryptAndSign 数据加密、签名 resultStr:"+resultStr);
         com.alibaba.fastjson.JSONObject resultJson = com.alibaba.fastjson.JSONObject.parseObject(resultStr);
@@ -69,13 +79,12 @@ public class BaseController {
             //2、数据进行签名
             sign = RSASignature.sign(sourceData, signPrvKey);
         }catch (Exception e){
-            LOGGER.error("/encryptAndSign 数据加密、签名 异常",e);
+            LOGGER.error("/encryptAndSign 数据加密、签名异常",e);
             return new BusiException(ResponseInfo.EXCEPTION.code, ResponseInfo.EXCEPTION.msg);
         }
         JSONObject param = new JSONObject();
         param.put("data",data);
         param.put("sign",sign);
-
         return new ApiResponse().addData(param);
     }
 }
