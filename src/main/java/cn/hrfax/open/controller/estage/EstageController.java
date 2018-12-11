@@ -77,7 +77,7 @@ public class EstageController {
                         "\"pics\":[" +
                             "{" +
                                 "\"picId\":\"材料ID；Int(11)；材料唯一ID；必传\"," +
-                                "\"picCode\":\"材料Code；String(30)；材料code，sfzzm:身份证正面，sfzfm:身份证反面，zxsqs:征信授权书，sjcxsqs:数据查询授权书，zxsqszp:授权书签字照片，rlzmz:人脸正面照，WGDCL:其他贷款材料；身份证正面、身份证反面、征信授权书必传\"," +
+                                "\"picCode\":\"材料Code；String(30)；材料code，sfzzm:身份证正面，sfzfm:身份证反面，zxsqs:征信授权书，sjcxsqs:数据查询授权书，zxsqszp:授权书签字照片，rlzmz:人脸正面照，WGDCL:其他贷款材料； 身份证正面、身份证反面、征信授权书必传,订单为电子签约方式时，征信授权书不用传\"," +
                                 "\"picFileName\":\"材料的fileName；String(30)；材料的fileName；必传\"," +
                                 "\"picAddress\":\"材料完整路径地址；String(250)；材料完整路径地址；必传\"" +
                             "}" +
@@ -100,7 +100,7 @@ public class EstageController {
                             "\"pics\":[" +
                                 "{" +
                                 "\"picId\":\"材料ID；Int(11)；材料唯一ID；必传\"," +
-                                "\"picCode\":\"材料Code；String(30)；材料code，sfzzm:身份证正面，sfzfm:身份证反面，zxsqs:征信授权书，sjcxsqs:数据查询授权书，zxsqszp:授权书签字照片，rlzmz:人脸正面照，WGDCL:其他贷款材料；身份证正面、身份证反面、征信授权书必传\"," +
+                                "\"picCode\":\"材料Code；String(30)；材料code，sfzzm:身份证正面，sfzfm:身份证反面，zxsqs:征信授权书，sjcxsqs:数据查询授权书，zxsqszp:授权书签字照片，rlzmz:人脸正面照，WGDCL:其他贷款材料； 身份证正面、身份证反面、征信授权书必传,订单为电子签约方式时，征信授权书不用传\"," +
                                 "\"picFileName\":\"材料的fileName；String(30)；材料的fileName；必传\"," +
                                 "\"picAddress\":\"材料完整路径地址；String(250)；材料完整路径地址；必传\"" +
                                 "}" +
@@ -124,7 +124,7 @@ public class EstageController {
                             "\"pics(材料信息)\":[" +
                                 "{" +
                                     "\"picId\":\"材料ID；Int(11)；材料唯一ID；必传\"," +
-                                    "\"picCode\":\"材料Code；String(30)；材料code，sfzzm:身份证正面，sfzfm:身份证反面，zxsqs:征信授权书，sjcxsqs:数据查询授权书，zxsqszp:授权书签字照片，rlzmz:人脸正面照，WGDCL:其他贷款材料；身份证正面、身份证反面、征信授权书；必传\"," +
+                                    "\"picCode\":\"材料Code；String(30)；材料code，sfzzm:身份证正面，sfzfm:身份证反面，zxsqs:征信授权书，sjcxsqs:数据查询授权书，zxsqszp:授权书签字照片，rlzmz:人脸正面照，WGDCL:其他贷款材料； 身份证正面、身份证反面、征信授权书必传,订单为电子签约方式时，征信授权书不用传\"," +
                                     "\"picFileName\":\"材料的fileName；String(30)；材料的fileName；必传\"," +
                                     "\"picAddress\":\"材料完整路径地址；String(250)；材料完整路径地址；必传\"" +
                                 "}" +
@@ -135,7 +135,8 @@ public class EstageController {
             "}" +
             "}";
 
-    @PostMapping("/bank/creditApply")
+    //@PostMapping("/bank/creditApply")
+    @PostMapping("/1/bank/route")
     @ApiOperation(value = "征信进件", notes = "征信进件接口，业务代码busiCode为1001")
     @ApiImplicitParam(name = "jsonObject", value = creditApplyParam, required = true, paramType = "body" )
     public Object creditApply(@RequestBody JSONObject jsonObject){
@@ -220,7 +221,8 @@ public class EstageController {
             "}" +
             "}";
 
-    @PostMapping("/bank/cardApply")
+    //@PostMapping("/bank/cardApply")
+    @PostMapping("/2/bank/route")
     @ApiOperation(value = "申请开卡", notes = "申请开卡接口，业务代码busiCode为1003")
     @ApiImplicitParam(name = "jsonObject", value = cardApplyParam, required = true, paramType = "body",example = "example")
     public Object cardApply(@RequestBody JSONObject jsonObject){
@@ -255,7 +257,7 @@ public class EstageController {
                     "\"downloadMode\":\"材料下载方式；Int(2)；1-http下载,2-ftp下载,3-sftp下载；必传\"," +
                     "\"financeCharge\":\"附加费；Decimal(17,2)；附加费；不传\"," +
                     "\"carInfo(车辆信息)\":{" +
-                        "\"carName\":\"车型名称；String(60)；品牌-车系-车型（例：大众-朗逸-2017款 1.6L 自动舒适版），校验专项分期系统是否存在该车型；必传\"," +
+                        "\"carName\":\"车型名称；String(60)；传第一车网id；必传\"," +
                         "\"carPrice\":\"车辆价格；Decimal(17,2)；非行内系统字段，不传不影响办理业务；非必传\"," +
                         "\"carType\":\"国产车还是进口车；Int；0-国产车，1-进口车，非行内系统字段，不传不影响办理业务；非必传\"," +
                         "\"frameNo\":\"车架号；String(40)；视业务行要求；非必传\"," +
@@ -393,7 +395,8 @@ public class EstageController {
             "}" +
             "}";
 
-    @PostMapping("/bank/stageApply")
+    //@PostMapping("/bank/stageApply")
+    @PostMapping("/3/bank/route")
     @ApiOperation(value = "分期进件", notes = "分期进件接口，业务代码busiCode为1002")
     @ApiImplicitParam(name = "jsonObject", value = stageApplyParam, required = true, paramType = "body")
     public Object stageApply(@RequestBody JSONObject jsonObject){
@@ -463,7 +466,8 @@ public class EstageController {
             "}" +
             "}";
 
-    @PostMapping("/bank/materialsSupplement")
+    //@PostMapping("/bank/materialsSupplement")
+    @PostMapping("/4/bank/route")
     @ApiOperation(value = "材料补录", notes = "材料补录接口，业务代码busiCode为1005")
     @ApiImplicitParam(name = "jsonObject", value = materialsSupplementParam, required = true, paramType = "body")
     public Object materialsSupplement(@RequestBody JSONObject jsonObject){
@@ -512,7 +516,8 @@ public class EstageController {
             "}" +
             "}";
 
-    @PostMapping("/bank/mortgageSupplements")
+    //@PostMapping("/bank/mortgageSupplements")
+    @PostMapping("/5/bank/route")
     @ApiOperation(value = "抵押材料补录", notes = "抵押材料补录接口，业务代码busiCode为1006")
     @ApiImplicitParam(name = "jsonObject", value = mortgageSupplementsParam, required = true, paramType = "body")
     public Object mortgageSupplements(@RequestBody JSONObject jsonObject){
@@ -547,7 +552,8 @@ public class EstageController {
             "}" +
             "}";
 
-    @PostMapping("/bank/orderInfoConfirm")
+    //@PostMapping("/bank/orderInfoConfirm")
+    @PostMapping("/6/bank/route")
     @ApiOperation(value = "信息确认", notes = "信息确认接口，业务代码busiCode为1008，目前有征信确认、请款确认")
     @ApiImplicitParam(name = "jsonObject", value = orderInfoConfirmParam, required = true, paramType = "body")
     public Object orderInfoConfirm(@RequestBody JSONObject jsonObject){
