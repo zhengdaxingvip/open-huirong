@@ -4,7 +4,7 @@
  * Author     :liyb
  * Create Date:2017年6月5日
  */
-package cn.hrfax.open.common;
+package cn.hrfax.open.common.rsa;
 
 import cn.hrfax.open.common.util.Base64Util;
 

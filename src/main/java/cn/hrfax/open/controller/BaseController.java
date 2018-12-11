@@ -3,15 +3,17 @@ package cn.hrfax.open.controller;
 import cn.hrfax.open.api.ApiResponse;
 import cn.hrfax.open.api.ResponseInfo;
 import cn.hrfax.open.common.BankApplyBusiCode;
-import cn.hrfax.open.common.RSASignature;
-import cn.hrfax.open.common.RSAUtil;
-import cn.hrfax.open.config.EsbConfig;
+import cn.hrfax.open.common.BankTypeConstant;
+import cn.hrfax.open.common.rsa.RSASignature;
+import cn.hrfax.open.common.rsa.RSAUtil;
+import cn.hrfax.open.common.rsa.RSAkeyConstant;
 import cn.hrfax.open.controller.estage.EstageController;
 import cn.hrfax.open.exception.BusiException;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +31,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class BaseController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EstageController.class);
+
     @Autowired
-    private EsbConfig esbConfig;
+    private RSAkeyConstant rsAkey;
 
     //征信进件参数
     private final String encryptAndSignParam="{\n" +
@@ -69,8 +72,18 @@ public class BaseController {
         LOGGER.error("/encryptAndSign 数据加密、签名 resultStr:"+resultStr);
         com.alibaba.fastjson.JSONObject resultJson = com.alibaba.fastjson.JSONObject.parseObject(resultStr);
         String sourceData = resultJson.getJSONObject("data").toString();
-        String dataPubKey = esbConfig.getDataPubKey();
-        String signPrvKey = esbConfig.getSignPrvKey();
+        String platNo = resultJson.getString("platNo");
+        String dataPubKey = StringUtils.EMPTY;
+        String signPrvKey = StringUtils.EMPTY;
+        if (platNo.equals(BankTypeConstant.HR_PLAT_NO)) {
+
+            dataPubKey = rsAkey.getHRKJ_DATA_PUBLIC_KEY();
+            signPrvKey = rsAkey.getHRKJ_SIGN_PRIVATE_KEY();
+        } else {
+            dataPubKey = rsAkey.getDATA_PUBLIC_KEY();
+            signPrvKey = rsAkey.getSIGN_PRIVATE_KEY();
+        }
+
         String data;
         String sign;
         try{

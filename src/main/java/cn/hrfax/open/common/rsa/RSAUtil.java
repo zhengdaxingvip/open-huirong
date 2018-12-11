@@ -1,4 +1,4 @@
-package cn.hrfax.open.common;
+package cn.hrfax.open.common.rsa;
 
 import cn.hrfax.open.common.util.Base64Util;
 import cn.hrfax.open.common.util.StringUtil;

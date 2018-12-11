@@ -29,9 +29,15 @@ public class EstageController {
     @Autowired
     private EsbConfig esbConfig;
 
-//    @GetMapping("/hello")
+//    @PostMapping("/hello")
 //    @ApiOperation(value = "hello",notes = "Hello")
-//    public Object hello(){
+//    @ApiImplicitParam
+//    public Object hello(@ApiJsonObject(name = "params", value = {
+//            @ApiJsonProperty(key = "mobile", example = "18614242538", description = "user mobile",required = true,allowMultiple=true,value = {
+//                    @ApiSingleParam(name = "aaa",value = "sss")
+//            }),
+//            @ApiJsonProperty(key = "password", example = "123456", description = "user password",required = true,allowMultiple=false)
+//    })@RequestBody Map<String, Object> params){
 //        LOGGER.error("hello");
 //        return "Hello";
 //    }
@@ -513,6 +519,41 @@ public class EstageController {
         LOGGER.error("抵押材料补录接口:{}"+jsonObject);
         String busiCode=jsonObject.getString("busiCode");
         if(busiCode==null||!BankApplyBusiCode.ICBC_MORTGAGE_SUPPLE.routeBusiCode.equals(busiCode)){
+            return new ApiResponse(ResponseInfo.ILLEGAL_PARAM.code, ResponseInfo.ILLEGAL_PARAM.msg+": busiCode错误");
+        }
+        return bankRoute(jsonObject);
+    }
+
+    //信息确认参数
+    private final String orderInfoConfirmParam="{" +
+            "\"assurerNo\":\"合作商户号；String(25)；技术提供；必传\"," +
+            "\"bankType\":\"银行类型；String(25)；ICBC；必传\"," +
+            "\"busiCode\":\"接口标识；String(30)；1008,每个接口有个字符串来标识接口唯一性；必传\"," +
+            "\"sign\":\"签名\"," +
+            "\"platNo\":\"平台编码；String(10)；技术提供；必传\"," +
+            "\"data\":{" +
+                "\"pub\":{" +
+                    "\"bankCode\":\"经办行；String(50)；业务落地行编号，技术提供；必传\"," +
+                    "\"assurerNo\":\"合作商户号；String(25)；技术提供；必传\"," +
+                    "\"bankType\":\"银行类型；String(25)；ICBC；非必传\"," +
+                    "\"busiCode\":\"接口标识；String(30)；1008,每个接口有个字符串来标识接口唯一性；非必传\"," +
+                    "\"orderNo\":\"订单号；String(50)；每笔交易唯一标识，贵方订单号；必传\"," +
+                    "\"platNo\":\"平台编码；String(10)；技术提供；必传\"," +
+                    "\"productType\":\"产品类型；Int(2)；技术提供：业务作业审批的流程编码，不同的作业流程有不同编码；必传\"" +
+                "}," +
+                "\"req\":{" +
+                    "\"signConfirm\":\"确认标记；Int(1)；1-征信确认，2-请款确认；必传\"" +
+                "}" +
+            "}" +
+            "}";
+
+    @PostMapping("/bank/orderInfoConfirm")
+    @ApiOperation(value = "信息确认", notes = "信息确认接口，业务代码busiCode为1008，目前有征信确认、请款确认")
+    @ApiImplicitParam(name = "jsonObject", value = orderInfoConfirmParam, required = true, paramType = "body")
+    public Object orderInfoConfirm(@RequestBody JSONObject jsonObject){
+        LOGGER.error("信息确认接口:{}"+jsonObject);
+        String busiCode=jsonObject.getString("busiCode");
+        if(busiCode==null||!BankApplyBusiCode.ICBC_LOANORDER_CONFIRM.routeBusiCode.equals(busiCode)){
             return new ApiResponse(ResponseInfo.ILLEGAL_PARAM.code, ResponseInfo.ILLEGAL_PARAM.msg+": busiCode错误");
         }
         return bankRoute(jsonObject);
