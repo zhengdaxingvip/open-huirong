@@ -106,30 +106,6 @@ public class EstageController {
                                 "}" +
                             "]" +
                         "}" +
-                    "]," +
-                    "\"guarantee(担保人),整个区块可不传\":[" +
-                        "{" +
-                            "\"userName\":\"姓名；String(30)；共同还款人姓名；必传\"," +
-                            "\"idCard\":\"身份证号码；String(18)；关联人身份证号码；必传\"," +
-                            "\"startDate\":\"证件有限期起始日；String(10)；yyyy.MM.dd，例2015.07.14；必传\"," +
-                            "\"endDate\":\"证件有限期截止日；String(10)；yyyy.MM.dd，例2035.07.14；必传\"," +
-                            "\"bankCardNo\":\"银行卡号；String(20)；银行卡号；非必传\"," +
-                            "\"phoneNum\":\"手机号码；String(11)；共同还款人手机号码；必传\"," +
-                            "\"signMode\":\"签约方式；Int(2)；1-电子签约方式，2-影像上传方式；非必传\"," +
-                            "\"issueAuthority\":\"身份证签发机关；String(60)；关联人身份证签发机关；必传\"," +
-                            "\"isQueryCredit\":\"是否查征信；Integer(1)；0-是 1-否，默认0-是；必传\"," +
-                            "\"userRelationShip\":\"与申请人关系；Integer(1)；1-财产共有人，2-担保关系人，3-共同申请人，4-共同偿还人；必传\"," +
-                            "\"userRelationShip\":\"关系类型；Integer(2)；1-配偶，2-父母，3-子女，4-兄弟姐妹，5-亲戚，6-同学，7-同乡，8-朋友，9-同事；必传\"," +
-                            "\"familyAddress\":\"住宅地址；String(120)；住宅地址；必传\"," +
-                            "\"pics(材料信息)\":[" +
-                                "{" +
-                                    "\"picId\":\"材料ID；Int(11)；材料唯一ID；必传\"," +
-                                    "\"picCode\":\"材料Code；String(30)；材料code，sfzzm:身份证正面，sfzfm:身份证反面，zxsqs:征信授权书，sjcxsqs:数据查询授权书，zxsqszp:授权书签字照片，rlzmz:人脸正面照，WGDCL:其他贷款材料； 身份证正面、身份证反面、征信授权书必传,订单为电子签约方式时，征信授权书不用传\"," +
-                                    "\"picFileName\":\"材料的fileName；String(30)；材料的fileName；必传\"," +
-                                    "\"picAddress\":\"材料完整路径地址；String(250)；材料完整路径地址；必传\"" +
-                                "}" +
-                            "]" +
-                        "}" +
                     "]" +
                 "}" +
             "}" +
@@ -223,7 +199,7 @@ public class EstageController {
 
     //@PostMapping("/bank/cardApply")
     @PostMapping("/2/bank/route")
-    @ApiOperation(value = "申请开卡", notes = "申请开卡接口，业务代码busiCode为1003")
+    @ApiOperation(value = "申请开卡", notes = "申请开卡接口，业务代码busiCode为1003，收到4-授信通过通知后可调用此接口")
     @ApiImplicitParam(name = "jsonObject", value = cardApplyParam, required = true, paramType = "body",example = "example")
     public Object cardApply(@RequestBody JSONObject jsonObject){
         LOGGER.error("申请开卡接口:{}"+jsonObject);
@@ -397,7 +373,7 @@ public class EstageController {
 
     //@PostMapping("/bank/stageApply")
     @PostMapping("/3/bank/route")
-    @ApiOperation(value = "分期进件", notes = "分期进件接口，业务代码busiCode为1002")
+    @ApiOperation(value = "分期进件", notes = "分期进件接口，业务代码busiCode为1002，收到4-授信通过通知后可调用此接口，先调用开卡接口，再调次分期进件接口")
     @ApiImplicitParam(name = "jsonObject", value = stageApplyParam, required = true, paramType = "body")
     public Object stageApply(@RequestBody JSONObject jsonObject){
         LOGGER.error("分期进件接口:{}"+jsonObject);
@@ -468,7 +444,7 @@ public class EstageController {
 
     //@PostMapping("/bank/materialsSupplement")
     @PostMapping("/4/bank/route")
-    @ApiOperation(value = "材料补录", notes = "材料补录接口，业务代码busiCode为1005")
+    @ApiOperation(value = "材料补录", notes = "材料补录接口，业务代码busiCode为1005，在收到6-材料补录通知后可调用此接口，在进件过程中为非必调接口")
     @ApiImplicitParam(name = "jsonObject", value = materialsSupplementParam, required = true, paramType = "body")
     public Object materialsSupplement(@RequestBody JSONObject jsonObject){
         LOGGER.error("材料补录接口:{}"+jsonObject);
@@ -518,7 +494,7 @@ public class EstageController {
 
     //@PostMapping("/bank/mortgageSupplements")
     @PostMapping("/5/bank/route")
-    @ApiOperation(value = "抵押材料补录", notes = "抵押材料补录接口，业务代码busiCode为1006")
+    @ApiOperation(value = "抵押材料补录", notes = "抵押材料补录接口，业务代码busiCode为1006，在收到5-等待押品补录通知后可调用此接口")
     @ApiImplicitParam(name = "jsonObject", value = mortgageSupplementsParam, required = true, paramType = "body")
     public Object mortgageSupplements(@RequestBody JSONObject jsonObject){
         LOGGER.error("抵押材料补录接口:{}"+jsonObject);
@@ -554,7 +530,8 @@ public class EstageController {
 
     //@PostMapping("/bank/orderInfoConfirm")
     @PostMapping("/6/bank/route")
-    @ApiOperation(value = "信息确认", notes = "信息确认接口，业务代码busiCode为1008，目前有征信确认、请款确认")
+    @ApiOperation(value = "信息确认", notes = "信息确认接口，业务代码busiCode为1008，当订单为电子签约方式时需在相应阶段调用此接口，目前有征信确认、请款确认。" +
+            "例如征信提交后，再调用该接口，signConfirm传1-征信确认，e分期方才可将此订单提交至行内进行风险筛查等操作")
     @ApiImplicitParam(name = "jsonObject", value = orderInfoConfirmParam, required = true, paramType = "body")
     public Object orderInfoConfirm(@RequestBody JSONObject jsonObject){
         LOGGER.error("信息确认接口:{}"+jsonObject);
