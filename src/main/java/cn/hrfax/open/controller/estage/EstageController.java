@@ -228,10 +228,7 @@ public class EstageController {
                     "\"productType\":\"产品类型；Int(2)；技术提供：业务作业审批的流程编码，不同的作业流程有不同编码；必传\"" +
                 "}," +
                 "\"req\":{" +
-                    "\"intentionPrice\":\"意向价格；Decimal(17,2)；意向车辆价格；必传\"," +
-                    "\"carType\":\"业务品种；Int(2)；0-新车，1-二手车，2-新能源车；必传\"," +
-                    "\"downloadMode\":\"材料下载方式；Int(2)；1-http下载,2-ftp下载,3-sftp下载；必传\"," +
-                    "\"financeCharge\":\"附加费；Decimal(17,2)；附加费；不传\"," +
+                    "\"signMode\":\"签约方式；Int；1.电子签约方式，2.影像上传方式；非必传\"," +
                     "\"carInfo(车辆信息)\":{" +
                         "\"carName\":\"车型名称；String(60)；传第一车网id；必传\"," +
                         "\"carPrice\":\"车辆价格；Decimal(17,2)；非行内系统字段，不传不影响办理业务；非必传\"," +
@@ -241,6 +238,7 @@ public class EstageController {
                     "}," +
                     "\"stageInfo (分期信息)\":{" +
                         "\"businessModel\":\"业务模式；Int(4)；1-抵押,2-质押,3-保证,4-组合,5-抵押+合作机构保证(先放款后抵押),6-抵押+合作机构保证(先抵押后放款),7-阶段性保证+抵押；必传\"," +
+                        "\"dealer\":\"经销商名称；String(100)；经销商名称；非必传\"," +
                         "\"contractLoanMoney\":\"车辆贷款本金；decimal(17,2)；除担保费之外的贷款金额。计算公式：车辆贷款本金=贷款金额合计-附加费 ；非必传\"," +
                         "\"dscode\":\"营销代码；String(30)；信用卡卡表上的营销代码；非必传\"," +
                         "\"contractSfRatio\":\"收入还贷比；Decimal(2,2)；收入还贷比；非必传\"," +
