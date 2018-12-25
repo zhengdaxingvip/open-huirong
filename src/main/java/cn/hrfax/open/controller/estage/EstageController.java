@@ -187,7 +187,7 @@ public class EstageController {
                     "\"cprovince\":\"单位地址省份；String(5)；单位地址省份；必传\"," +
                     "\"ccity\":\"单位地址市；String(30)；单位地址市；必传\"," +
                     "\"ccounty\":\"单位地址县（区）；String(30)；单位地址县（区）；必传\"," +
-                    "\"drawmode\":\"卡片领取方式；int(4)；1-自取，2-寄送单位地址，3-寄送住宅地址，4-寄送通讯地址；必传\"," +
+                    "\"drawmode\":\"卡片领取方式；int(4)；1-自取，2-寄送单位地址，3-寄送住宅地址；必传\"," +
                     "\"statdate\":\"证件有效期；String(10)；YYYY-MM-DD，如果是长期，则填入9999-12-30；必传\"," +
                     "\"primnat\":\"国籍；Int(4)；国籍，见字典；必传\"," +
                     "\"cstsign\":\"亲见客户签名；Int(4)；1:是 2:否；必传\"," +
@@ -243,7 +243,7 @@ public class EstageController {
                         "\"dscode\":\"营销代码；String(30)；信用卡卡表上的营销代码；非必传\"," +
                         "\"contractSfRatio\":\"收入还贷比；Decimal(2,2)；收入还贷比；非必传\"," +
                         "\"repayPeriod\":\"还款期限；Int(4)；3/6/9/12/18/24/36/48/60；必传\"," +
-                        "\"marketingArchivesNum\":\"营销档案编号；String(8)；非行内系统字段，不传不影响办理业务；必传\"," +
+                        "\"marketingArchivesNum\":\"营销档案编号；String(8)；信用卡卡产品编号；必传\"," +
                         "\"commissionFeeRate\":\"分期手续费率；String(20)；例如10% 则传 10，非行内系统字段，不传不影响办理业务，非必传\"," +
                         "\"willResign\":\"是否重新签约；Int(1)；是否重新签约，0-否,1-是；非必传\"," +
                         "\"sfMoney\":\"首付金额；decimal(17,2)；首付金额；必传\"," +
@@ -252,7 +252,6 @@ public class EstageController {
                         "\"firstMonthMoney\":\"首月还款金额；decimal(17,2)；非行内系统字段，不传不影响办理业务；非必传\"," +
                         "\"monthMoney\":\"月还款金额；decimal(17,2)；非行内系统字段，不传不影响办理业务；非必传\"," +
                         "\"poundageAmount\":\"手续费总额；decimal(17,2)；非行内系统字段，不传不影响办理业务；非必传\"," +
-                        "\"isDiscount\":\"是否贴息；Int(2)；1-是,0-否，非行内系统字段，不传不影响办理业务；非必传\"," +
                         "\"monthincome\":\"还款人月均总收入；decimal(17,2)；还款人月均总收入；必传\"," +
                         "\"property\":\"个人总资产；decimal(17,2)；个人总资产；必传\"," +
                         "\"houseArea\":\"现住房面积；decimal(17,2)；现住房面积，单位m²；必传\"," +
