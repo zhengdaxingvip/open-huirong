@@ -18,3 +18,23 @@ fs:
   storage:
     local:
       temp: D:/cardry/tmp
+
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    cache: false
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+  resources:
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /**
+  datasource:
+    url: jdbc:mysql://localhost:3306/open-huirong?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: root
+    password: Huirong@520
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource

@@ -1,0 +1,971 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- user  -->
+
+<mapper namespace="cn.hrfax.open.mapper.UserMapper">
+
+	<resultMap id="BaseResultMap" type="cn.hrfax.open.model.UserPo">
+		<result property="id" column="id" jdbcType="INTEGER"/>
+		<result property="username" column="username" jdbcType="VARCHAR"/>
+		<result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+		<result property="realname" column="realname" jdbcType="VARCHAR"/>
+		<result property="password" column="password" jdbcType="VARCHAR"/>
+		<result property="salt" column="salt" jdbcType="VARCHAR"/>
+		<result property="anonym" column="anonym" jdbcType="VARCHAR"/>
+		<result property="wxOpenid" column="wx_openid" jdbcType="VARCHAR"/>
+		<result property="wxUnionid" column="wx_unionid" jdbcType="VARCHAR"/>
+		<result property="qqOpenid" column="qq_openid" jdbcType="VARCHAR"/>
+		<result property="email" column="email" jdbcType="VARCHAR"/>
+		<result property="mobile" column="mobile" jdbcType="VARCHAR"/>
+		<result property="gender" column="gender" jdbcType="VARCHAR"/>
+		<result property="signature" column="signature" jdbcType="VARCHAR"/>
+		<result property="birthday" column="birthday" jdbcType="TIMESTAMP"/>
+		<result property="company" column="company" jdbcType="VARCHAR"/>
+		<result property="address" column="address" jdbcType="VARCHAR"/>
+		<result property="zipcode" column="zipcode" jdbcType="VARCHAR"/>
+		<result property="site" column="site" jdbcType="VARCHAR"/>
+		<result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+		<result property="idcardtype" column="idcardtype" jdbcType="VARCHAR"/>
+		<result property="idcard" column="idcard" jdbcType="VARCHAR"/>
+		<result property="remark" column="remark" jdbcType="VARCHAR"/>
+		<result property="status" column="status" jdbcType="VARCHAR"/>
+		<result property="created" column="created" jdbcType="TIMESTAMP"/>
+		<result property="createSource" column="create_source" jdbcType="VARCHAR"/>
+		<result property="logged" column="logged" jdbcType="TIMESTAMP"/>
+		<result property="activated" column="activated" jdbcType="TIMESTAMP"/>
+	</resultMap>
+	
+	<sql id="Table_Name">
+        user
+    </sql>
+    
+    <sql id="Base_Column">
+        id,username,nickname,realname,password,salt,anonym,wx_openid,wx_unionid,qq_openid,email,mobile,gender,signature,birthday,company,address,zipcode,site,avatar,idcardtype,idcard,remark,status,created,create_source,logged,activated
+    </sql>
+	
+	
+	<sql id="Example_Where_Clause" >
+	    <!--
+	      WARNING - Criteria条件查询的where语句。
+	      MyBatis代码工具自动生成，不要修改！
+	    -->
+	    <where >
+	      <foreach collection="oredCriteria" item="criteria" >
+	        <if test="criteria.valid" >
+	          <if test="criteria.andRelation" >
+	            and
+	          </if>
+	          <if test="!criteria.andRelation" >
+	            or
+	          </if>
+	          <trim prefix="(" suffix=")" prefixOverrides="and|or" >
+	            <foreach collection="criteria.criteria" item="criterion" >
+	              <choose >
+	                <when test="criterion.noValue and !criterion.orValue" >
+	                  and ${criterion.condition}
+	                </when>
+	                <when test="criterion.noValue and criterion.orValue" >
+	                  or ${criterion.condition}
+	                </when>
+	                <when test="criterion.singleValue and !criterion.orValue" >
+	                  and ${criterion.condition} #{criterion.value}
+	                </when>
+	                <when test="criterion.singleValue and criterion.orValue" >
+	                  or ${criterion.condition} #{criterion.value}
+	                </when>
+	                <when test="criterion.betweenValue and !criterion.orValue" >
+	                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+	                </when>
+	                <when test="criterion.betweenValue and criterion.orValue" >
+	                  or ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+	                </when>
+	                <when test="criterion.listValue and !criterion.orValue" >
+	                  and ${criterion.condition}
+	                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+	                    #{listItem}
+	                  </foreach>
+	                </when>
+	                <when test="criterion.listValue and criterion.orValue" >
+	                  or ${criterion.condition}
+	                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+	                    #{listItem}
+	                  </foreach>
+	                </when>
+	              </choose>
+	            </foreach>
+	          </trim>
+	        </if>
+	      </foreach>
+	    </where>
+	    <if test="orderBy != null and !orderBy.isEmpty()" >
+	      order by 
+		  <foreach collection="orderBy" item="orderByItem" separator=",">
+		  ${orderByItem.columnName}  ${orderByItem.sort}
+		  </foreach>
+	    </if>
+	    <if test="pageIndex != null" >
+	      limit ${(pageIndex-1) * pageSize}, #{pageSize}
+	    </if>
+	  </sql>
+	  
+	 <select id="queryListByBean" resultMap="BaseResultMap" parameterType="cn.hrfax.open.model.bean.UserBean" >
+	    <!--
+	      WARNING - 根据Criteria所携带条件查询数据，不含Blob字段。
+	    -->
+	    select
+	    <if test="distinct" >
+	      distinct
+	    </if>
+	    <include refid="Base_Column" />
+	    from
+	    <include refid="Table_Name" />
+	    <if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+	  </select>
+	   
+	<select id="countByBean" parameterType="cn.hrfax.open.model.bean.UserBean"
+		resultType="java.lang.Integer">
+		select count(1) from 
+		<include refid="Table_Name" />
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+
+	<delete id="deleteByBean" parameterType="cn.hrfax.open.model.bean.UserBean">
+		delete from 
+		<include refid="Table_Name" />
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	
+    <sql id="Base_Where">
+        <trim suffixOverrides="AND">
+	            <if test="id != null">
+	                id= #{id , jdbcType=INTEGER}
+	                AND
+	            </if>
+	            <if test="username != null">
+	                username= #{username , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="nickname != null">
+	                nickname= #{nickname , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="realname != null">
+	                realname= #{realname , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="password != null">
+	                password= #{password , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="salt != null">
+	                salt= #{salt , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="anonym != null">
+	                anonym= #{anonym , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="wxOpenid != null">
+	                wx_openid= #{wxOpenid , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="wxUnionid != null">
+	                wx_unionid= #{wxUnionid , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="qqOpenid != null">
+	                qq_openid= #{qqOpenid , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="email != null">
+	                email= #{email , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="mobile != null">
+	                mobile= #{mobile , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="gender != null">
+	                gender= #{gender , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="signature != null">
+	                signature= #{signature , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="birthday != null">
+	                birthday= #{birthday , jdbcType=TIMESTAMP}
+	                AND
+	            </if>
+	            <if test="company != null">
+	                company= #{company , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="address != null">
+	                address= #{address , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="zipcode != null">
+	                zipcode= #{zipcode , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="site != null">
+	                site= #{site , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="avatar != null">
+	                avatar= #{avatar , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="idcardtype != null">
+	                idcardtype= #{idcardtype , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="idcard != null">
+	                idcard= #{idcard , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="remark != null">
+	                remark= #{remark , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="status != null">
+	                status= #{status , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="created != null">
+	                created= #{created , jdbcType=TIMESTAMP}
+	                AND
+	            </if>
+	            <if test="createSource != null">
+	                create_source= #{createSource , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="logged != null">
+	                logged= #{logged , jdbcType=TIMESTAMP}
+	                AND
+	            </if>
+	            <if test="activated != null">
+	                activated= #{activated , jdbcType=TIMESTAMP}
+	                AND
+	            </if>
+        </trim>
+    </sql>
+    
+    <sql id="Base_Where_NoStatus">
+        <trim suffixOverrides="AND">
+	            <if test="id != null">
+	                id= #{id , jdbcType=INTEGER}
+	                AND
+	            </if>
+	            <if test="username != null">
+	                username= #{username , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="nickname != null">
+	                nickname= #{nickname , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="realname != null">
+	                realname= #{realname , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="password != null">
+	                password= #{password , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="salt != null">
+	                salt= #{salt , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="anonym != null">
+	                anonym= #{anonym , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="wxOpenid != null">
+	                wx_openid= #{wxOpenid , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="wxUnionid != null">
+	                wx_unionid= #{wxUnionid , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="qqOpenid != null">
+	                qq_openid= #{qqOpenid , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="email != null">
+	                email= #{email , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="mobile != null">
+	                mobile= #{mobile , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="gender != null">
+	                gender= #{gender , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="signature != null">
+	                signature= #{signature , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="birthday != null">
+	                birthday= #{birthday , jdbcType=TIMESTAMP}
+	                AND
+	            </if>
+	            <if test="company != null">
+	                company= #{company , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="address != null">
+	                address= #{address , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="zipcode != null">
+	                zipcode= #{zipcode , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="site != null">
+	                site= #{site , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="avatar != null">
+	                avatar= #{avatar , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="idcardtype != null">
+	                idcardtype= #{idcardtype , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="idcard != null">
+	                idcard= #{idcard , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="remark != null">
+	                remark= #{remark , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="status != null">
+	                status= #{status , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="created != null">
+	                created= #{created , jdbcType=TIMESTAMP}
+	                AND
+	            </if>
+	            <if test="createSource != null">
+	                create_source= #{createSource , jdbcType=VARCHAR}
+	                AND
+	            </if>
+	            <if test="logged != null">
+	                logged= #{logged , jdbcType=TIMESTAMP}
+	                AND
+	            </if>
+	            <if test="activated != null">
+	                activated= #{activated , jdbcType=TIMESTAMP}
+	                AND
+	            </if>
+        </trim>
+    </sql>
+    
+    
+    <sql id="Base_Select">
+        select
+        <include refid="Base_Column" />
+        from
+        <include refid="Table_Name" />
+        <where>
+            <include refid="Base_Where" />
+        </where>
+    </sql>
+    
+    
+    <insert id="insert" parameterType="cn.hrfax.open.model.UserPo" useGeneratedKeys="true" keyProperty="id">
+        insert into
+        <include refid="Table_Name" />
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">
+                    id,
+                </if>
+                <if test="username != null">
+                    username,
+                </if>
+                <if test="nickname != null">
+                    nickname,
+                </if>
+                <if test="realname != null">
+                    realname,
+                </if>
+                <if test="password != null">
+                    password,
+                </if>
+                <if test="salt != null">
+                    salt,
+                </if>
+                <if test="anonym != null">
+                    anonym,
+                </if>
+                <if test="wxOpenid != null">
+                    wx_openid,
+                </if>
+                <if test="wxUnionid != null">
+                    wx_unionid,
+                </if>
+                <if test="qqOpenid != null">
+                    qq_openid,
+                </if>
+                <if test="email != null">
+                    email,
+                </if>
+                <if test="mobile != null">
+                    mobile,
+                </if>
+                <if test="gender != null">
+                    gender,
+                </if>
+                <if test="signature != null">
+                    signature,
+                </if>
+                <if test="birthday != null">
+                    birthday,
+                </if>
+                <if test="company != null">
+                    company,
+                </if>
+                <if test="address != null">
+                    address,
+                </if>
+                <if test="zipcode != null">
+                    zipcode,
+                </if>
+                <if test="site != null">
+                    site,
+                </if>
+                <if test="avatar != null">
+                    avatar,
+                </if>
+                <if test="idcardtype != null">
+                    idcardtype,
+                </if>
+                <if test="idcard != null">
+                    idcard,
+                </if>
+                <if test="remark != null">
+                    remark,
+                </if>
+                <if test="status != null">
+                    status,
+                </if>
+                <if test="created != null">
+                    created,
+                </if>
+                <if test="createSource != null">
+                    create_source,
+                </if>
+                <if test="logged != null">
+                    logged,
+                </if>
+                <if test="activated != null">
+                    activated,
+                </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">
+                    #{id , jdbcType=INTEGER},
+                </if>
+                <if test="username != null">
+                    #{username , jdbcType=VARCHAR},
+                </if>
+                <if test="nickname != null">
+                    #{nickname , jdbcType=VARCHAR},
+                </if>
+                <if test="realname != null">
+                    #{realname , jdbcType=VARCHAR},
+                </if>
+                <if test="password != null">
+                    #{password , jdbcType=VARCHAR},
+                </if>
+                <if test="salt != null">
+                    #{salt , jdbcType=VARCHAR},
+                </if>
+                <if test="anonym != null">
+                    #{anonym , jdbcType=VARCHAR},
+                </if>
+                <if test="wxOpenid != null">
+                    #{wxOpenid , jdbcType=VARCHAR},
+                </if>
+                <if test="wxUnionid != null">
+                    #{wxUnionid , jdbcType=VARCHAR},
+                </if>
+                <if test="qqOpenid != null">
+                    #{qqOpenid , jdbcType=VARCHAR},
+                </if>
+                <if test="email != null">
+                    #{email , jdbcType=VARCHAR},
+                </if>
+                <if test="mobile != null">
+                    #{mobile , jdbcType=VARCHAR},
+                </if>
+                <if test="gender != null">
+                    #{gender , jdbcType=VARCHAR},
+                </if>
+                <if test="signature != null">
+                    #{signature , jdbcType=VARCHAR},
+                </if>
+                <if test="birthday != null">
+                    #{birthday , jdbcType=TIMESTAMP},
+                </if>
+                <if test="company != null">
+                    #{company , jdbcType=VARCHAR},
+                </if>
+                <if test="address != null">
+                    #{address , jdbcType=VARCHAR},
+                </if>
+                <if test="zipcode != null">
+                    #{zipcode , jdbcType=VARCHAR},
+                </if>
+                <if test="site != null">
+                    #{site , jdbcType=VARCHAR},
+                </if>
+                <if test="avatar != null">
+                    #{avatar , jdbcType=VARCHAR},
+                </if>
+                <if test="idcardtype != null">
+                    #{idcardtype , jdbcType=VARCHAR},
+                </if>
+                <if test="idcard != null">
+                    #{idcard , jdbcType=VARCHAR},
+                </if>
+                <if test="remark != null">
+                    #{remark , jdbcType=VARCHAR},
+                </if>
+                <if test="status != null">
+                    #{status , jdbcType=VARCHAR},
+                </if>
+                <if test="created != null">
+                    #{created , jdbcType=TIMESTAMP},
+                </if>
+                <if test="createSource != null">
+                    #{createSource , jdbcType=VARCHAR},
+                </if>
+                <if test="logged != null">
+                    #{logged , jdbcType=TIMESTAMP},
+                </if>
+                <if test="activated != null">
+                    #{activated , jdbcType=TIMESTAMP},
+                </if>
+        </trim>
+    </insert>
+    
+    
+    <update id="updateByEntity">
+        UPDATE
+        <include refid="Table_Name" />
+        <set>
+                <if test="s.id != null">
+                    id = #{s.id, jdbcType=INTEGER},
+                </if>
+                <if test="s.username != null">
+                    username = #{s.username, jdbcType=VARCHAR},
+                </if>
+                <if test="s.nickname != null">
+                    nickname = #{s.nickname, jdbcType=VARCHAR},
+                </if>
+                <if test="s.realname != null">
+                    realname = #{s.realname, jdbcType=VARCHAR},
+                </if>
+                <if test="s.password != null">
+                    password = #{s.password, jdbcType=VARCHAR},
+                </if>
+                <if test="s.salt != null">
+                    salt = #{s.salt, jdbcType=VARCHAR},
+                </if>
+                <if test="s.anonym != null">
+                    anonym = #{s.anonym, jdbcType=VARCHAR},
+                </if>
+                <if test="s.wxOpenid != null">
+                    wx_openid = #{s.wxOpenid, jdbcType=VARCHAR},
+                </if>
+                <if test="s.wxUnionid != null">
+                    wx_unionid = #{s.wxUnionid, jdbcType=VARCHAR},
+                </if>
+                <if test="s.qqOpenid != null">
+                    qq_openid = #{s.qqOpenid, jdbcType=VARCHAR},
+                </if>
+                <if test="s.email != null">
+                    email = #{s.email, jdbcType=VARCHAR},
+                </if>
+                <if test="s.mobile != null">
+                    mobile = #{s.mobile, jdbcType=VARCHAR},
+                </if>
+                <if test="s.gender != null">
+                    gender = #{s.gender, jdbcType=VARCHAR},
+                </if>
+                <if test="s.signature != null">
+                    signature = #{s.signature, jdbcType=VARCHAR},
+                </if>
+                <if test="s.birthday != null">
+                    birthday = #{s.birthday, jdbcType=TIMESTAMP},
+                </if>
+                <if test="s.company != null">
+                    company = #{s.company, jdbcType=VARCHAR},
+                </if>
+                <if test="s.address != null">
+                    address = #{s.address, jdbcType=VARCHAR},
+                </if>
+                <if test="s.zipcode != null">
+                    zipcode = #{s.zipcode, jdbcType=VARCHAR},
+                </if>
+                <if test="s.site != null">
+                    site = #{s.site, jdbcType=VARCHAR},
+                </if>
+                <if test="s.avatar != null">
+                    avatar = #{s.avatar, jdbcType=VARCHAR},
+                </if>
+                <if test="s.idcardtype != null">
+                    idcardtype = #{s.idcardtype, jdbcType=VARCHAR},
+                </if>
+                <if test="s.idcard != null">
+                    idcard = #{s.idcard, jdbcType=VARCHAR},
+                </if>
+                <if test="s.remark != null">
+                    remark = #{s.remark, jdbcType=VARCHAR},
+                </if>
+                <if test="s.status != null">
+                    status = #{s.status, jdbcType=VARCHAR},
+                </if>
+                <if test="s.created != null">
+                    created = #{s.created, jdbcType=TIMESTAMP},
+                </if>
+                <if test="s.createSource != null">
+                    create_source = #{s.createSource, jdbcType=VARCHAR},
+                </if>
+                <if test="s.logged != null">
+                    logged = #{s.logged, jdbcType=TIMESTAMP},
+                </if>
+                <if test="s.activated != null">
+                    activated = #{s.activated, jdbcType=TIMESTAMP},
+                </if>
+        </set>
+        <where>
+            <trim prefix="(" suffix=")" suffixOverrides="AND">
+	                <if test="w.id != null">
+	                    id = #{w.id, jdbcType=INTEGER}
+	                    AND
+	                </if>
+	                <if test="w.username != null">
+	                    username = #{w.username, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.nickname != null">
+	                    nickname = #{w.nickname, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.realname != null">
+	                    realname = #{w.realname, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.password != null">
+	                    password = #{w.password, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.salt != null">
+	                    salt = #{w.salt, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.anonym != null">
+	                    anonym = #{w.anonym, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.wxOpenid != null">
+	                    wx_openid = #{w.wxOpenid, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.wxUnionid != null">
+	                    wx_unionid = #{w.wxUnionid, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.qqOpenid != null">
+	                    qq_openid = #{w.qqOpenid, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.email != null">
+	                    email = #{w.email, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.mobile != null">
+	                    mobile = #{w.mobile, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.gender != null">
+	                    gender = #{w.gender, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.signature != null">
+	                    signature = #{w.signature, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.birthday != null">
+	                    birthday = #{w.birthday, jdbcType=TIMESTAMP}
+	                    AND
+	                </if>
+	                <if test="w.company != null">
+	                    company = #{w.company, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.address != null">
+	                    address = #{w.address, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.zipcode != null">
+	                    zipcode = #{w.zipcode, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.site != null">
+	                    site = #{w.site, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.avatar != null">
+	                    avatar = #{w.avatar, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.idcardtype != null">
+	                    idcardtype = #{w.idcardtype, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.idcard != null">
+	                    idcard = #{w.idcard, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.remark != null">
+	                    remark = #{w.remark, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.status != null">
+	                    status = #{w.status, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.created != null">
+	                    created = #{w.created, jdbcType=TIMESTAMP}
+	                    AND
+	                </if>
+	                <if test="w.createSource != null">
+	                    create_source = #{w.createSource, jdbcType=VARCHAR}
+	                    AND
+	                </if>
+	                <if test="w.logged != null">
+	                    logged = #{w.logged, jdbcType=TIMESTAMP}
+	                    AND
+	                </if>
+	                <if test="w.activated != null">
+	                    activated = #{w.activated, jdbcType=TIMESTAMP}
+	                    AND
+	                </if>
+            </trim>
+        </where>
+    </update>
+    
+
+   	<update id="update" parameterType="cn.hrfax.open.model.UserPo">
+        UPDATE
+        <include refid="Table_Name" />
+		<set>
+			<if test="username != null">
+                    username = #{username, jdbcType=VARCHAR},
+			</if>
+			<if test="nickname != null">
+                    nickname = #{nickname, jdbcType=VARCHAR},
+			</if>
+			<if test="realname != null">
+                    realname = #{realname, jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+                    password = #{password, jdbcType=VARCHAR},
+			</if>
+			<if test="salt != null">
+                    salt = #{salt, jdbcType=VARCHAR},
+			</if>
+			<if test="anonym != null">
+                    anonym = #{anonym, jdbcType=VARCHAR},
+			</if>
+			<if test="wxOpenid != null">
+                    wx_openid = #{wxOpenid, jdbcType=VARCHAR},
+			</if>
+			<if test="wxUnionid != null">
+                    wx_unionid = #{wxUnionid, jdbcType=VARCHAR},
+			</if>
+			<if test="qqOpenid != null">
+                    qq_openid = #{qqOpenid, jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+                    email = #{email, jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+                    mobile = #{mobile, jdbcType=VARCHAR},
+			</if>
+			<if test="gender != null">
+                    gender = #{gender, jdbcType=VARCHAR},
+			</if>
+			<if test="signature != null">
+                    signature = #{signature, jdbcType=VARCHAR},
+			</if>
+			<if test="birthday != null">
+                    birthday = #{birthday, jdbcType=TIMESTAMP},
+			</if>
+			<if test="company != null">
+                    company = #{company, jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+                    address = #{address, jdbcType=VARCHAR},
+			</if>
+			<if test="zipcode != null">
+                    zipcode = #{zipcode, jdbcType=VARCHAR},
+			</if>
+			<if test="site != null">
+                    site = #{site, jdbcType=VARCHAR},
+			</if>
+			<if test="avatar != null">
+                    avatar = #{avatar, jdbcType=VARCHAR},
+			</if>
+			<if test="idcardtype != null">
+                    idcardtype = #{idcardtype, jdbcType=VARCHAR},
+			</if>
+			<if test="idcard != null">
+                    idcard = #{idcard, jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+                    remark = #{remark, jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+                    status = #{status, jdbcType=VARCHAR},
+			</if>
+			<if test="created != null">
+                    created = #{created, jdbcType=TIMESTAMP},
+			</if>
+			<if test="createSource != null">
+                    create_source = #{createSource, jdbcType=VARCHAR},
+			</if>
+			<if test="logged != null">
+                    logged = #{logged, jdbcType=TIMESTAMP},
+			</if>
+			<if test="activated != null">
+                    activated = #{activated, jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where
+			id = #{id}
+	</update>
+    
+    
+    
+    <delete id="delete">
+        delete from
+        <include refid="Table_Name" />
+        <where>
+            <include refid="Base_Where_NoStatus" />
+        </where>
+    </delete>
+    
+    
+    <select id="count" parameterType="java.util.Map" resultType="int">
+        select count(1) from
+        <include refid="Table_Name" />
+        <where>
+            <include refid="Base_Where" />
+        </where>
+    </select>
+    
+    <select id="selectOne" resultMap="BaseResultMap">
+        <include refid="Base_Select" />
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        <include refid="Base_Select" />
+    </select>
+    
+    <insert id="batchInsert" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="id">
+        insert into
+        <include refid="Table_Name" />
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                    username,
+                    nickname,
+                    realname,
+                    password,
+                    salt,
+                    anonym,
+                    wx_openid,
+                    wx_unionid,
+                    qq_openid,
+                    email,
+                    mobile,
+                    gender,
+                    signature,
+                    birthday,
+                    company,
+                    address,
+                    zipcode,
+                    site,
+                    avatar,
+                    idcardtype,
+                    idcard,
+                    remark,
+                    status,
+                    created,
+                    create_source,
+                    logged,
+                    activated,
+        </trim>
+        values
+		<foreach collection="list" item="item" index="index" separator=",">
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+						#{item.username , jdbcType=VARCHAR},
+						#{item.nickname , jdbcType=VARCHAR},
+						#{item.realname , jdbcType=VARCHAR},
+						#{item.password , jdbcType=VARCHAR},
+						#{item.salt , jdbcType=VARCHAR},
+						#{item.anonym , jdbcType=VARCHAR},
+						#{item.wxOpenid , jdbcType=VARCHAR},
+						#{item.wxUnionid , jdbcType=VARCHAR},
+						#{item.qqOpenid , jdbcType=VARCHAR},
+						#{item.email , jdbcType=VARCHAR},
+						#{item.mobile , jdbcType=VARCHAR},
+						#{item.gender , jdbcType=VARCHAR},
+						#{item.signature , jdbcType=VARCHAR},
+						#{item.birthday , jdbcType=TIMESTAMP},
+						#{item.company , jdbcType=VARCHAR},
+						#{item.address , jdbcType=VARCHAR},
+						#{item.zipcode , jdbcType=VARCHAR},
+						#{item.site , jdbcType=VARCHAR},
+						#{item.avatar , jdbcType=VARCHAR},
+						#{item.idcardtype , jdbcType=VARCHAR},
+						#{item.idcard , jdbcType=VARCHAR},
+						#{item.remark , jdbcType=VARCHAR},
+						#{item.status , jdbcType=VARCHAR},
+						#{item.created , jdbcType=TIMESTAMP},
+						#{item.createSource , jdbcType=VARCHAR},
+						#{item.logged , jdbcType=TIMESTAMP},
+						#{item.activated , jdbcType=TIMESTAMP},
+			</trim>
+		</foreach>
+    </insert>
+    
+    <delete id="batchDelete" parameterType="java.util.Map">
+	    delete from
+	    <include refid="Table_Name" />
+	    where id in
+	    <foreach item="item" collection="list" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+    </delete>
+   
+
+</mapper>
