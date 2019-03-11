@@ -38,3 +38,10 @@ spring:
     password: Huirong@520
     driver-class-name: com.mysql.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
+  mail:
+    port: 587
+    host: smtp.yeah.net
+    default-encoding: UTF-8
+    username: smallfatter
+    password: h19900410
+    protocol: smtp
